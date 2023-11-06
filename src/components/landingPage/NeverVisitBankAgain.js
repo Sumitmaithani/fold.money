@@ -3,6 +3,7 @@ import React from "react";
 
 import computer from "@/assets/svgs/icon-computer.svg";
 import webapp from "@/assets/images/web-app.jpeg";
+import cash from "@/assets/images/cash-flow.png";
 
 export default function NeverVisitBankAgain() {
   return (
@@ -204,7 +205,7 @@ export default function NeverVisitBankAgain() {
                 decoding="async"
                 data-nimg="1"
                 className="px-4"
-                src="https://fold.money/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fcash-flow.396ff87c.png&w=1920&q=75"
+                src={cash}
               />
               <p className="pt-5 pb-6 text-lg font-normal text-soft">
                 Corporations wish for the
