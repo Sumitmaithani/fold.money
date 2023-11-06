@@ -8,7 +8,7 @@ import dark from "@/assets/svgs/dark.svg";
 import light from "@/assets/svgs/light.svg";
 import logo from "@/assets/svgs/logo.svg";
 import { useState } from "react";
-import Lines from "@/assets/svgs/lines";
+import Lines from "@/assets/svgs/Lines";
 
 export default function MockWebComponent() {
   const [isChecked, setIsChecked] = useState(true);
