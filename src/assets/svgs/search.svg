@@ -1,0 +1,20 @@
+ <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="#fff"
+                  class="scale-[1.4]"
+                >
+                  <g clip-path="url(#redo_svg__a)">
+                    <path
+                      fill-rule="evenodd"
+                      d="M11.19 16.287a6.244 6.244 0 0 0 4.329-4.108.75.75 0 1 1 1.426.465 7.75 7.75 0 1 1-.629-6.217l.176-2.147a.75.75 0 0 1 1.495.122l-.382 4.68a.75.75 0 0 1-1.05.625L12.617 7.97a.75.75 0 1 1 .605-1.372l1.942.857a6.25 6.25 0 1 0-3.973 8.833Z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </g>
+                  <defs>
+                    <clipPath id="redo_svg__a">
+                      <path fill="#fff" d="M0 0h20v20H0z"></path>
+                    </clipPath>
+                  </defs>
+                </svg>

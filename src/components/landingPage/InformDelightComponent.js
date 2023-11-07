@@ -22,8 +22,8 @@ export default function InformDelightComponent() {
 
   return (
     <div>
-      <div className="bg mt-40">
-        <p className="mx-auto text-center max-w-[60ch]">
+      <div className="bg relative -mt-20 z-10">
+        <p className="mx-auto text-center max-w-[60ch] z-10 relative pt-20">
           Just type in McDonald&#x27;s for example and see all the times you
           have spent at McDonald&#x27;s. Then type Gym Membership, realise
           there&#x27;s no such transactions. Look yourself in the mirror, stop
