@@ -1,20 +1,45 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 import graph from "@/assets/svgs/icon-graph.svg";
 import BgLines from "@/assets/svgs/BgLines";
 import iphone from "@/assets/images/iphone-frame.png";
 
+const data = [
+  "Cash flow keeps spending in check.",
+  "Gain deeper insights with powerful tools.",
+  "Balance trends helps make better decisions",
+];
+
 export default function InformDelightComponent() {
   const [playVideo, setPlayVideo] = useState(true);
   const videoRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  let interval;
+
+  // Function to update the active index
+  const updateActiveIndex = () => {
+    setActiveIndex((activeIndex + 1) % data.length);
+  };
+
+  useEffect(() => {
+    // Set up an interval to update the active index every 2 seconds
+    interval = setInterval(updateActiveIndex, 3250);
+
+    // Clear the interval when the component unmounts
+    return () => {
+      clearInterval(interval);
+    };
+  }, [activeIndex]);
 
   const toggleVideo = () => {
     if (videoRef.current) {
       if (playVideo) {
         videoRef.current.pause();
+        clearInterval(interval);
       } else {
         videoRef.current.play();
+        interval = setInterval(updateActiveIndex, 3250);
       }
       setPlayVideo(!playVideo);
     }
@@ -90,24 +115,18 @@ export default function InformDelightComponent() {
             id="inform-delight-feats"
             aria-label="List of fold app features shown in video"
           >
-            <li className="flex items-center gap-2">
-              <div className="w-5 h-5 rounded-full bg-[#3B9DFB]"></div>
-              <span className="w-[17ch] false">
-                Cash flow keeps spending in check.
-              </span>
-            </li>
-            <li className="flex items-center gap-2">
-              <div className="w-5 h-5 rounded-full bg-muted"></div>
-              <span className="w-[17ch] text-subtle">
-                Gain deeper insights with powerful tools.
-              </span>
-            </li>
-            <li className="flex items-center gap-2">
-              <div className="w-5 h-5 rounded-full bg-muted"></div>
-              <span className="w-[17ch] text-subtle">
-                Balance trends helps make better decisions
-              </span>
-            </li>
+            {data.map((item, index) => {
+              return (
+                <li key={index} className="flex items-center gap-2">
+                  <div
+                    className={`w-5 h-5 rounded-full ${
+                      index === activeIndex ? "bg-[#3B9DFB]" : "bg-muted"
+                    }`}
+                  ></div>
+                  <span className="w-[17ch] false">{item}</span>
+                </li>
+              );
+            })}
             <li className="flex items-center gap-2 ml-6">
               <button
                 className="px-2 py-1 text-center border rounded-full border-soft bg-inset"

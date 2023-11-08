@@ -1,9 +1,10 @@
 import Image from "next/image";
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
 
 import lens from "@/assets/svgs/icon-lens.svg";
 import taxi from "@/assets/svgs/taxi.svg";
+import briefcase from "@/assets/svgs/briefcase.svg";
 import restaurant from "@/assets/svgs/restaurant.svg";
 import search from "@/assets/svgs/search.svg";
 import arrowup from "@/assets/svgs/arrowup.svg";
@@ -12,13 +13,62 @@ import tags from "@/assets/svgs/tags.svg";
 import today from "@/assets/svgs/today.svg";
 import month from "@/assets/svgs/month.svg";
 import week from "@/assets/svgs/week.svg";
+import SearchResultComponent from "./SearchResultComponent";
+import SearchInvisibleComponent from "./SearchInvisibleComponent";
+
+const data = [
+  {
+    text: "Coffee",
+    name: "Sendhoor",
+    date: "Today, 11:30 AM",
+    money: "45",
+    title: "Food & drinks",
+    img: restaurant,
+  },
+  {
+    text: "Salary",
+    name: "ABC Pvt ltd",
+    date: "02 July, 07:20 PM",
+    money: "60,000",
+    title: "Salary",
+    img: briefcase,
+  },
+  {
+    text: "Food",
+    name: "Subway",
+    date: "Today, 01:45 PM",
+    money: "370",
+    title: "Food & drinks",
+    img: restaurant,
+  },
+  {
+    text: "Commute",
+    name: "Metro",
+    date: "12 Aug, 08:50 AM",
+    money: "50",
+    title: "Transport",
+    img: taxi,
+  },
+];
 
 export default function SearchComponent() {
   const [isVisible, setIsVisible] = useState(true);
+  const controls = useAnimation();
+  const [isRotated, setIsRotated] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handleSearch = () => {
-    console.warn("click");
-    setIsVisible(!isVisible);
+  const handleSearch = async () => {
+    setIsVisible(false);
+
+    setTimeout(() => setIsVisible(true), 500);
+    await controls.start({ rotate: 90 });
+    setIsRotated(true);
+
+    // Rotate back to 0 degrees
+    await controls.start({ rotate: 0 });
+    setIsRotated(false);
+
+    setCurrentIndex((currentIndex + 1) % data.length);
   };
 
   return (
@@ -41,18 +91,70 @@ export default function SearchComponent() {
           <button onClick={handleSearch} className="transition">
             <div className="absolute inset-0 flex items-center w-full">
               <div className="bg-[#332E2E]/80 w-full backdrop-blur text-white shadow-5 rounded-xl text-left px-4 py-[19px] text-normal flex justify-between flex-row-reverse">
-                <Image alt="" className="" src={search} />
+                <motion.div
+                  initial={{ rotate: 0 }}
+                  animate={controls}
+                  transition={{
+                    type: "keyframes",
+                    damping: 10,
+                    stiffness: 100,
+                    duration: 0.4,
+                  }}
+                  style={{
+                    cursor: "pointer",
+                  }}
+                >
+                  <Image
+                    height={35}
+                    width={35}
+                    alt=""
+                    className=""
+                    src={search}
+                  />
+                </motion.div>
                 <span className="sr-only" id="#next-search">
                   Show Next Search Item
                 </span>
-
                 <div className="flex gap-2">
                   <div className="h-[4rem] bg w-0.5 animate-pulse"></div>
-                  <div>
-                    <span className="text-h3 leading-[4rem]" aria-live="polite">
-                      Coffee
-                    </span>
-                  </div>
+                  <AnimatePresence mode="wait">
+                    {isVisible ? (
+                      <motion.div
+                        initial={{
+                          y: 150,
+                          opacity: 0,
+                        }}
+                        animate={{
+                          y: 0,
+                          opacity: isVisible ? 1 : 0,
+                        }}
+                        exit={{
+                          y: 100,
+                          opacity: 0,
+                        }}
+                        transition={{
+                          duration: 0.4,
+                          ease: "linear",
+                        }}
+                        className="flex gap-2"
+                      >
+                        <span
+                          className="text-h3 leading-[4rem]"
+                          aria-live="polite"
+                        >
+                          {data[currentIndex].text}
+                        </span>
+                      </motion.div>
+                    ) : (
+                      <span
+                        className="text-h3 leading-[4rem]"
+                        aria-live="polite"
+                        style={{ display: "hidden" }}
+                      >
+                        {data[currentIndex].text}
+                      </span>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
             </div>
@@ -89,94 +191,60 @@ export default function SearchComponent() {
           </ul>
         </div>
         <div className="col-span-1"></div>
-        <div className="h">
-          <AnimatePresence mode="wait">
-            {isVisible && (
-              <motion.div
-                initial={{
-                  rotate: "Ødeg",
-                  scale: 0,
-                }}
-                animate={{
-                  rotate: "360deg",
-                  scale: 1,
-                }}
-                exit={{
-                  rotate: "Ødeg",
-                  scale: 0,
-                }}
-                transition={{
-                  duration: 1,
-                  ease: "backInOut",
-                }}
-                className="relative col-span-6 col-start-4 mt-6"
-              >
-                <div className="space-y-4">
-                  <div>
-                    <div className="bg shadow-5 relative rounded-xxl bg">
-                      <header className="flex gap-4 px-5 py-2 place-content-between text-soft">
-                        <span className="font-semibold misc-xl">Sendhoor</span>
-                        <span className="shrink-0 misc-xl">
-                          Today, 11:30 AM
-                        </span>
-                      </header>
-                      <div className="flex items-center justify-between w-full p-5 border-t-[3px] border-softer">
-                        <p className="inline-flex font-medium leading-none font-gtAmerica text-[4.2rem]">
-                          <span className="text-lg font-medium text-subtle font-gtAmerica mr-0.5 leading-none text-[4.2rem]">
-                            -
-                          </span>
-                          <span className="text-lg font-normal mr-[2px]">
-                            ₹
-                          </span>
-                          45
-                        </p>
-                        <div className="flex items-center gap-1 px-3 py-1 font-semibold uppercase origin-right scale-125 rounded bg-inset text-labelLg">
-                          <Image
-                            alt="restaurant Icon"
-                            width={26}
-                            height={26}
-                            src={restaurant}
-                          />
-                          Food &amp; drinks
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="bg shadow-5 relative rounded-xxl bg">
-                      <header className="flex gap-4 px-5 py-2 place-content-between text-soft invisible">
-                        <span className="font-semibold misc-xl">Sendhoor</span>
-                        <span className="shrink-0 misc-xl"></span>
-                      </header>
-                      <div className="flex items-center justify-between w-full p-5 border-t-[3px] border-softer">
-                        <p className="inline-flex font-medium leading-none font-gtAmerica text-[4.2rem] invisible">
-                          <span className="text-lg font-medium text-subtle font-gtAmerica mr-0.5 leading-none text-[4.2rem]">
-                            -
-                          </span>
-                          <span className="text-lg font-normal mr-[2px]">
-                            ₹
-                          </span>
-                          45
-                        </p>
-                        <div className="flex items-center gap-1 px-3 py-1 font-semibold uppercase origin-right scale-125 rounded bg-inset text-labelLg invisible">
-                          <img
-                            alt="taxi Icon"
-                            loading="lazy"
-                            width={26}
-                            height={26}
-                            src={taxi}
-                          />
-                          Transport
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="w-full bg-gradient-to-t from-[#F0F1F5] absolute bottom-0 h-[180px] "></div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+
+        <AnimatePresence mode="wait">
+          {isVisible ? (
+            <motion.div
+              initial={{
+                y: 150,
+                opacity: 0,
+              }}
+              animate={{
+                y: 0,
+                opacity: isVisible ? 1 : 0,
+              }}
+              exit={{
+                y: 100,
+                opacity: 0,
+              }}
+              transition={{
+                duration: 0.4,
+                ease: "linear",
+              }}
+              className="relative col-span-6 col-start-4 mt-6"
+            >
+              <div className="space-y-4">
+                <SearchResultComponent
+                  name={data[currentIndex].name}
+                  date={data[currentIndex].date}
+                  money={data[currentIndex].money}
+                  title={data[currentIndex].title}
+                  img={data[currentIndex].img}
+                />
+
+                <SearchInvisibleComponent />
+              </div>
+              <div className="w-full bg-gradient-to-t from-[#F0F1F5] absolute bottom-0 h-[180px] "></div>
+            </motion.div>
+          ) : (
+            <div
+              className="relative col-span-6 col-start-4 mt-6"
+              style={{ display: "hidden" }}
+            >
+              <div className="space-y-4">
+                <SearchResultComponent
+                  name={data[currentIndex].name}
+                  date={data[currentIndex].date}
+                  money={data[currentIndex].money}
+                  title={data[currentIndex].title}
+                  img={data[currentIndex].img}
+                />
+                <SearchInvisibleComponent />
+              </div>
+              <div className="w-full bg-gradient-to-t from-[#F0F1F5] absolute bottom-0 h-[180px] "></div>
+            </div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
