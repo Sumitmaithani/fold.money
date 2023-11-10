@@ -40,19 +40,12 @@ export default function MoreThanRowComponent() {
         Not just the numbers, but the story as well
       </p>
 
-      <div className="flex gap-5 mt-40 mb-40">
-        <motion.div
-          style={{
-            x,
-            //y,
-            opacity,
-          }}
-          className="border-r border-softer"
-        >
+      <div className="flex gap-5 mt-60 mb-40">
+        <motion.div className="border-r border-softer">
           <Image className="" src={right} alt="left" />
-          <div class="flex flex-col items-end gap-1 p-4 pt-0 pb-6 mt-6">
+          <div className="flex flex-col items-end gap-1 p-4 pt-0 pb-6 mt-6">
             <Image src={shop} alt="shop" />
-            <p class="max-w-[25ch] text-right text-soft">
+            <p className="max-w-[25ch] text-right text-soft">
               Merchants are detected automatically based on where you made your
               purchase.
             </p>
@@ -63,11 +56,11 @@ export default function MoreThanRowComponent() {
         </motion.div> */}
         <motion.div className="border-l border-softer">
           <Image className="" src={left} alt="right" />
-          <div class="p-4 pt-0 pb-6 mt-6 space-y-1 transition-opacity justify-self-end">
+          <div className="p-4 pt-0 pb-6 mt-6 space-y-1 transition-opacity justify-self-end">
             <Image src={tyre} alt="tyre" />
-            <p class="max-w-[30ch] text-left text-soft">
+            <p className="max-w-[30ch] text-left text-soft">
               The{" "}
-              <a class="link" href="/blog/introducing-f1">
+              <a className="link" href="/blog/introducing-f1">
                 F1 engine
               </a>{" "}
               smartly categorises your transaction to an appropriate category.
