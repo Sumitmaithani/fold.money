@@ -1,5 +1,4 @@
-"use client";
-
+import React, { useEffect, useState } from "react";
 import HeaderComponent from "./HeaderComponent";
 import HeroComponent from "./HeroComponent";
 import MockWebComponent from "./MockWebComponent";
@@ -10,16 +9,26 @@ import InformDelightComponent from "./InformDelightComponent";
 import NeverVisitBankAgain from "./NeverVisitBankAgain";
 import AnxietyComponent from "./AnxietyComponent";
 import FooterComponent from "./FooterComponent";
-import { useEffect, useState } from "react";
 
 export default function LandingPage() {
-  const [width, setWidth] = useState(window.innerWidth); // default width, detect on server.
-  const handleResize = () => setWidth(window.innerWidth);
+  const [width, setWidth] = useState(1440);
+
   useEffect(() => {
+    // Set the initial width on the client side
+    setWidth(window.innerWidth);
+
+    // Add an event listener for window resize
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
     window.addEventListener("resize", handleResize);
-    console.log(width);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [handleResize]);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   if (width >= 1400) {
     return (
@@ -37,6 +46,7 @@ export default function LandingPage() {
       </>
     );
   }
+
   return (
     <div className="flex h-screen justify-center items-center">
       <div className="text-center">
